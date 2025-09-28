@@ -5,13 +5,23 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Camera, Mail, Lock, User, UserCheck } from "lucide-react";
+import { Camera, Mail, Lock, User, UserCheck, Home } from "lucide-react";
 
 const AuthModal = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary/30 flex items-center justify-center p-4">
+      {/* Home Button */}
+      <Button
+        onClick={() => window.location.href = '/'}
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 left-4 z-10"
+      >
+        <Home className="w-5 h-5" />
+      </Button>
+      
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-xl mx-auto mb-4">

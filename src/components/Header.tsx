@@ -10,12 +10,15 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
               <Camera className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold text-foreground">PhotoLearn</span>
-          </div>
+          </button>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
