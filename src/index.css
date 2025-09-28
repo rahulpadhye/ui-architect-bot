@@ -2,41 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Photography Education Platform Design System
+Photography-inspired colors with professional navy and creative orange accents.
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 98%;
+    --foreground: 225 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 225 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 225 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Deep navy primary - professional and trustworthy */
+    --primary: 225 60% 15%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Warm creative accent */
+    --creative: 25 95% 55%;
+    --creative-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft secondary for cards and sections */
+    --secondary: 225 20% 96%;
+    --secondary-foreground: 225 15% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones for subtle elements */
+    --muted: 225 10% 92%;
+    --muted-foreground: 225 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Success and warning for feedback */
+    --success: 120 60% 45%;
+    --success-foreground: 0 0% 98%;
+    
+    --warning: 40 95% 55%;
+    --warning-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 225 20% 96%;
+    --accent-foreground: 225 15% 25%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
 
-    --radius: 0.5rem;
+    --border: 225 15% 85%;
+    --input: 225 15% 90%;
+    --ring: 225 60% 15%;
+
+    --radius: 0.75rem;
+    
+    /* Photography-inspired gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(225 60% 15%), hsl(225 50% 25%));
+    --gradient-creative: linear-gradient(135deg, hsl(25 95% 55%), hsl(35 85% 60%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(225 20% 98%));
+    
+    /* Elegant shadows with primary color tint */
+    --shadow-soft: 0 2px 10px -2px hsl(225 60% 15% / 0.1);
+    --shadow-medium: 0 8px 25px -5px hsl(225 60% 15% / 0.15);
+    --shadow-strong: 0 20px 40px -10px hsl(225 60% 15% / 0.2);
+    
+    /* Smooth transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     --sidebar-background: 0 0% 98%;
 

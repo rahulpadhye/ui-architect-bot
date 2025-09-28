@@ -1,12 +1,67 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import Footer from "@/components/Footer";
+import AuthModal from "@/components/AuthModal";
+import StudentDashboard from "@/components/StudentDashboard";
+import MentorDashboard from "@/components/MentorDashboard";
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<'landing' | 'auth' | 'student' | 'mentor'>('landing');
+
+  // For demo purposes - in a real app this would be handled by proper routing and auth
+  const handleViewChange = (view: 'landing' | 'auth' | 'student' | 'mentor') => {
+    setCurrentView(view);
+  };
+
+  if (currentView === 'auth') {
+    return <AuthModal />;
+  }
+
+  if (currentView === 'student') {
+    return <StudentDashboard />;
+  }
+
+  if (currentView === 'mentor') {
+    return <MentorDashboard />;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <Hero />
+      <Features />
+      
+      {/* Demo Navigation - Remove in production */}
+      <section className="py-12 bg-muted/30">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="text-2xl font-bold mb-6">Demo Navigation</h3>
+          <p className="text-muted-foreground mb-6">Click below to explore different interfaces</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button 
+              onClick={() => handleViewChange('auth')}
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              View Login Page
+            </button>
+            <button 
+              onClick={() => handleViewChange('student')}
+              className="px-6 py-3 bg-creative text-creative-foreground rounded-lg hover:bg-creative/90 transition-colors"
+            >
+              Student Dashboard
+            </button>
+            <button 
+              onClick={() => handleViewChange('mentor')}
+              className="px-6 py-3 bg-success text-success-foreground rounded-lg hover:bg-success/90 transition-colors"
+            >
+              Mentor Dashboard
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <Footer />
     </div>
   );
 };
