@@ -13,7 +13,11 @@ import {
   MessageSquare,
   Award,
   Camera,
-  Clock
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  Megaphone
 } from "lucide-react";
 
 const StudentDashboard = () => {
@@ -21,21 +25,64 @@ const StudentDashboard = () => {
     {
       title: "Portrait Photography",
       dueDate: "March 15, 2024",
-      status: "pending",
-      description: "Create 5 portrait photos using natural lighting"
+      status: "current",
+      description: "Create 5 portrait photos using natural lighting",
+      priority: "high"
     },
     {
-      title: "Landscape Composition",
+      title: "Landscape Composition", 
       dueDate: "March 10, 2024",
       status: "submitted",
-      grade: "A-",
+      grade: "well done",
       description: "Capture landscapes using rule of thirds"
+    },
+    {
+      title: "Black & White Photography",
+      dueDate: "March 8, 2024", 
+      status: "submitted",
+      grade: "completed",
+      description: "Master contrast and tonal range"
+    },
+    {
+      title: "Nature Close-ups",
+      dueDate: "March 5, 2024",
+      status: "submitted", 
+      grade: "incomplete",
+      description: "Focus on macro photography techniques"
+    },
+    {
+      title: "Architecture Photography",
+      dueDate: "March 1, 2024",
+      status: "not_submitted",
+      grade: "not submitted",
+      description: "Capture geometric forms and structures"
     },
     {
       title: "Street Photography",
       dueDate: "March 20, 2024",
       status: "upcoming",
       description: "Document daily life in urban settings"
+    }
+  ];
+
+  const announcements = [
+    {
+      title: "Photography Workshop",
+      date: "March 18, 2024",
+      type: "event",
+      description: "Join us for a hands-on lighting workshop"
+    },
+    {
+      title: "Assignment Deadline Extended", 
+      date: "March 16, 2024",
+      type: "announcement",
+      description: "Portrait assignment due date moved to March 17th"
+    },
+    {
+      title: "Guest Speaker Session",
+      date: "March 22, 2024", 
+      type: "event",
+      description: "Professional photographer Sarah Chen will share insights"
     }
   ];
 
@@ -114,45 +161,94 @@ const StudentDashboard = () => {
               </Card>
             </div>
 
-            {/* Assignments */}
+            {/* Current Assignment */}
+            <Card className="border-primary/50 bg-primary/5">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-primary">
+                  <AlertCircle className="w-5 h-5" />
+                  Current Assignment
+                </CardTitle>
+                <CardDescription>Your active assignment that needs attention</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {assignments.filter(a => a.status === "current").map((assignment, index) => (
+                  <div key={index} className="p-4 border border-primary/20 rounded-lg bg-background">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-lg">{assignment.title}</h3>
+                      <Badge variant="destructive">Due Soon</Badge>
+                    </div>
+                    <p className="text-muted-foreground mb-3">{assignment.description}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1 text-sm font-medium">
+                        <Calendar className="w-4 h-4" />
+                        Due: {assignment.dueDate}
+                      </div>
+                      <Button className="bg-primary hover:bg-primary/90">
+                        <Camera className="w-4 h-4 mr-2" />
+                        Upload Work
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* All Assignments */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
-                  My Assignments
+                  Assignment History
                 </CardTitle>
-                <CardDescription>Track your progress and upcoming deadlines</CardDescription>
+                <CardDescription>View all your assignments and their status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {assignments.map((assignment, index) => (
+                <div className="space-y-3">
+                  {assignments.filter(a => a.status !== "current").map((assignment, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
                       <div className="flex-1">
-                        <h3 className="font-semibold">{assignment.title}</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold">{assignment.title}</h3>
+                          {assignment.status === "submitted" && assignment.grade === "well done" && (
+                            <CheckCircle className="w-4 h-4 text-success" />
+                          )}
+                          {assignment.status === "submitted" && assignment.grade === "incomplete" && (
+                            <XCircle className="w-4 h-4 text-destructive" />
+                          )}
+                          {assignment.status === "not_submitted" && (
+                            <XCircle className="w-4 h-4 text-destructive" />
+                          )}
+                        </div>
                         <p className="text-sm text-muted-foreground mb-2">{assignment.description}</p>
                         <div className="flex items-center gap-4 text-sm">
                           <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             {assignment.dueDate}
                           </div>
-                          {assignment.grade && (
-                            <Badge variant="secondary">{assignment.grade}</Badge>
-                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        {assignment.status === "pending" && (
-                          <Badge variant="warning">Pending</Badge>
+                        {assignment.status === "submitted" && assignment.grade === "well done" && (
+                          <Badge variant="success">Well Done</Badge>
                         )}
-                        {assignment.status === "submitted" && (
-                          <Badge variant="success">Submitted</Badge>
+                        {assignment.status === "submitted" && assignment.grade === "completed" && (
+                          <Badge variant="secondary">Completed</Badge>
+                        )}
+                        {assignment.status === "submitted" && assignment.grade === "incomplete" && (
+                          <Badge variant="destructive">Incomplete</Badge>
+                        )}
+                        {assignment.status === "submitted" && assignment.grade === "late" && (
+                          <Badge variant="warning">Late</Badge>
+                        )}
+                        {assignment.status === "not_submitted" && (
+                          <Badge variant="destructive">Not Submitted</Badge>
                         )}
                         {assignment.status === "upcoming" && (
                           <Badge>Upcoming</Badge>
                         )}
                         <Button variant="outline" size="sm">
                           <Camera className="w-4 h-4 mr-1" />
-                          {assignment.status === "submitted" ? "View" : "Upload"}
+                          {assignment.status === "submitted" ? "View" : assignment.status === "upcoming" ? "Preview" : "Upload"}
                         </Button>
                       </div>
                     </div>
@@ -192,6 +288,35 @@ const StudentDashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Upcoming Events & Announcements */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Megaphone className="w-5 h-5" />
+                  Announcements & Events
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {announcements.map((item, index) => (
+                    <div key={index} className="p-3 border border-border rounded-lg">
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="font-medium text-sm">{item.title}</h4>
+                        <Badge variant={item.type === "event" ? "secondary" : "outline"} className="text-xs">
+                          {item.type}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-2">{item.description}</p>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Calendar className="w-3 h-3" />
+                        {item.date}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Quick Upload */}
             <Card>
               <CardHeader>
