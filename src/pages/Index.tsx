@@ -1,32 +1,9 @@
-import { useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
-import AuthModal from "@/components/AuthModal";
-import StudentDashboard from "@/components/StudentDashboard";
-import MentorDashboard from "@/components/MentorDashboard";
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'landing' | 'auth' | 'student' | 'mentor'>('landing');
-
-  // For demo purposes - in a real app this would be handled by proper routing and auth
-  const handleViewChange = (view: 'landing' | 'auth' | 'student' | 'mentor') => {
-    setCurrentView(view);
-  };
-
-  if (currentView === 'auth') {
-    return <AuthModal />;
-  }
-
-  if (currentView === 'student') {
-    return <StudentDashboard />;
-  }
-
-  if (currentView === 'mentor') {
-    return <MentorDashboard />;
-  }
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -39,24 +16,30 @@ const Index = () => {
           <h3 className="text-2xl font-bold mb-6">Demo Navigation</h3>
           <p className="text-muted-foreground mb-6">Click below to explore different interfaces</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              onClick={() => handleViewChange('auth')}
+            <a 
+              href="/login"
               className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
             >
-              View Login Page
-            </button>
-            <button 
-              onClick={() => handleViewChange('student')}
+              Sign In
+            </a>
+            <a 
+              href="/student"
               className="px-6 py-3 bg-creative text-creative-foreground rounded-lg hover:bg-creative/90 transition-colors"
             >
               Student Dashboard
-            </button>
-            <button 
-              onClick={() => handleViewChange('mentor')}
+            </a>
+            <a 
+              href="/mentor"
               className="px-6 py-3 bg-success text-success-foreground rounded-lg hover:bg-success/90 transition-colors"
             >
               Mentor Dashboard
-            </button>
+            </a>
+            <a 
+              href="/parent"
+              className="px-6 py-3 bg-primary/80 text-primary-foreground rounded-lg hover:bg-primary/70 transition-colors"
+            >
+              Parent Dashboard
+            </a>
           </div>
         </div>
       </section>

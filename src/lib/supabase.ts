@@ -1,0 +1,17 @@
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  // eslint-disable-next-line no-console
+  console.warn("Supabase env vars are missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local");
+  // eslint-disable-next-line no-console
+  console.warn("Upload functionality will be disabled until configured.");
+}
+
+// Use dummy values if env vars are missing to prevent client creation errors
+export const supabase = createClient(
+  supabaseUrl || "https://dummy.supabase.co", 
+  supabaseAnonKey || "dummy-key"
+);

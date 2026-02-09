@@ -19,8 +19,47 @@ import {
   XCircle,
   Megaphone
 } from "lucide-react";
+import { useRef, useState } from "react";
+import { homeworkKey } from "@/lib/storagePaths";
+import { presignUpload, uploadFileToS3 } from "@/services/storage";
 
 const StudentDashboard = () => {
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const triggerFileSelect = () => fileInputRef.current?.click();
+
+  const handleFileSelected = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    opts?: { classNumber?: number; studentName?: string; year?: number }
+  ) => {
+    // Upload functionality disabled - see SETUP_TODO.md for configuration steps
+    // eslint-disable-next-line no-alert
+    alert("Upload feature coming soon! S3 integration needs to be configured first.");
+    console.log("Upload disabled. File:", e.target.files?.[0]?.name, "Options:", opts);
+    
+    /* Commented out until S3 is configured
+    try {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      setUploading(true);
+      const year = opts?.year ?? new Date().getFullYear();
+      const studentName = opts?.studentName ?? "Alex";
+      const classNumber = opts?.classNumber ?? 1;
+      const key = homeworkKey({ year, studentName, classNumber, stage: "original", filename: file.name });
+      const presigned = await presignUpload({ key, contentType: file.type || "application/octet-stream" });
+      await uploadFileToS3(presigned, file);
+      alert(`Upload complete to: ${key}`);
+      e.target.value = "";
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed. Check console for details.");
+    } finally {
+      setUploading(false);
+    }
+    */
+  };
+
   const assignments = [
     {
       title: "Portrait Photography",
@@ -104,6 +143,13 @@ const StudentDashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => handleFileSelected(e, { classNumber: 1, studentName: "Alex" })}
+      />
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
         <div className="container mx-auto px-4 py-8">
@@ -183,9 +229,9 @@ const StudentDashboard = () => {
                         <Calendar className="w-4 h-4" />
                         Due: {assignment.dueDate}
                       </div>
-                      <Button className="bg-primary hover:bg-primary/90">
+                      <Button className="bg-primary hover:bg-primary/90" onClick={triggerFileSelect} disabled={uploading}>
                         <Camera className="w-4 h-4 mr-2" />
-                        Upload Work
+                        {uploading ? "Uploading..." : "Upload Work"}
                       </Button>
                     </div>
                   </div>
@@ -246,9 +292,9 @@ const StudentDashboard = () => {
                         {assignment.status === "upcoming" && (
                           <Badge>Upcoming</Badge>
                         )}
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={triggerFileSelect} disabled={uploading}>
                           <Camera className="w-4 h-4 mr-1" />
-                          {assignment.status === "submitted" ? "View" : assignment.status === "upcoming" ? "Preview" : "Upload"}
+                          {uploading ? "Uploading..." : assignment.status === "submitted" ? "View" : assignment.status === "upcoming" ? "Preview" : "Upload"}
                         </Button>
                       </div>
                     </div>
@@ -326,8 +372,8 @@ const StudentDashboard = () => {
                 <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
                   <FileImage className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground mb-3">Drag & drop your photos here</p>
-                  <Button variant="outline" size="sm">
-                    Choose Files
+                  <Button variant="outline" size="sm" onClick={triggerFileSelect} disabled={uploading}>
+                    {uploading ? "Uploading..." : "Choose Files"}
                   </Button>
                 </div>
               </CardContent>

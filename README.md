@@ -71,3 +71,47 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## S3 Storage Integration Setup
+
+This project includes S3 integration for organized file storage via Supabase Edge Functions.
+
+### Prerequisites
+
+1. **Supabase Project**: Connect your Lovable project to Supabase
+2. **AWS S3 Bucket**: Create an S3 bucket for file storage
+3. **AWS IAM User**: Create IAM user with S3 permissions
+
+### Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Deploy Supabase Edge Function
+
+1. Install Supabase CLI: `npm install -g supabase`
+2. Login: `supabase login`
+3. Link project: `supabase link --project-ref your-project-ref`
+4. Set secrets in Supabase dashboard:
+   - `AWS_ACCESS_KEY_ID`
+   - `AWS_SECRET_ACCESS_KEY`
+   - `AWS_REGION`
+   - `S3_BUCKET`
+   - `S3_ENDPOINT` (optional, for S3-compatible storage)
+5. Deploy function: `supabase functions deploy s3-router`
+
+### Folder Structure
+
+The S3 bucket will be organized as:
+- `class-content/class-1/`, `class-content/class-2/`, etc.
+- `homework/{year}/{student-name}/class-{number}/{stage}/`
+  - Stages: `original`, `good-pics`, `processed`, `final`
+- `teacher-resources/`
+
+### Testing
+
+After setup, use the Student Dashboard upload buttons to test file uploads to the organized S3 structure.
